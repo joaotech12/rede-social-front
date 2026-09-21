@@ -40,8 +40,7 @@ function efetuarCadastro() {
             alert('As senhas não coincidem.');
             return;
         }
+        localStorage.setItem("user", JSON.stringify({ email, senha }));
+        location.href = "login.html";
     });
-    localStorage.setItem("user", JSON.stringify({ email, senha }));
-    location.href = "login.html";
 }
-efetuarCadastro()
