@@ -44,3 +44,4 @@ function efetuarCadastro() {
     localStorage.setItem("user", JSON.stringify({ email, senha }));
     location.href = "login.html";
 }
+efetuarCadastro()
