@@ -72,3 +72,11 @@ body {
     height: 100vh;
     background-color: var(--color-blue-900);
 }
+button {
+    background-color: var(--color-blue-500);
+    color: var(--color-blue-50);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}

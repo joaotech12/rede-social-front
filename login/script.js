@@ -15,8 +15,8 @@ function fazerLogin() {
                     <input id="senha" type="password" placeholder="Senha">
                 </div>
                 <button type="submit">Enviar</button>
+                <a href="../cadastro">Fazer cadastro</a>
             </form>
-            <a href="../cadastro">Fazer cadastro</a>
         </main>`)
     }  
 fazerLogin()
