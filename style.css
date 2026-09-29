@@ -13,6 +13,111 @@ main {
     padding: 20px 12px;
 }
 
+.topbar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    min-height: 68px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    border-bottom: 1px solid #292929;
+    background: #181818;
+}
+
+.brand {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.account-menu {
+    position: relative;
+}
+
+.account-button {
+    display: flex;
+    min-height: 42px;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 12px 4px 5px;
+    border: 1px solid #383838;
+    border-radius: 22px;
+    background: #222;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+}
+
+.account-button:hover,
+.account-button:focus-visible {
+    border-color: #ff3158;
+}
+
+.account-button:focus-visible,
+.account-logout:focus-visible {
+    outline: 2px solid #ff3158;
+    outline-offset: 3px;
+}
+
+.account-avatar {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    place-items: center;
+    border-radius: 50%;
+    background: #ff3158;
+    color: #fff;
+    font-weight: 700;
+}
+
+.account-chevron {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.account-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: min(260px, calc(100vw - 24px));
+    padding: 8px;
+    border: 1px solid #383838;
+    border-radius: 8px;
+    background: #202020;
+    box-shadow: 0 12px 32px rgb(0 0 0 / 40%);
+}
+
+.account-dropdown[hidden] {
+    display: none;
+}
+
+.account-email {
+    overflow-wrap: anywhere;
+    margin: 0;
+    padding: 10px;
+    color: #bbb;
+    font-size: 13px;
+}
+
+.account-logout {
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.account-logout:hover {
+    background: #333;
+}
+
 #feed {
     display: flex;
     flex-direction: column;

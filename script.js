@@ -8,6 +8,40 @@ function verificarLogin() {
 
 const usuarioAutenticado = verificarLogin();
 
+const botaoConta = document.querySelector('#account-button');
+const menuConta = document.querySelector('#account-dropdown');
+const usuarioSalvo = JSON.parse(localStorage.getItem('user') || 'null');
+const emailUsuario = usuarioSalvo?.email || 'Conta conectada';
+
+document.querySelector('#account-email').textContent = emailUsuario;
+document.querySelector('#account-avatar').textContent = emailUsuario.charAt(0).toUpperCase() || '?';
+
+botaoConta.addEventListener('click', () => {
+    const menuAberto = botaoConta.getAttribute('aria-expanded') === 'true';
+    botaoConta.setAttribute('aria-expanded', String(!menuAberto));
+    menuConta.hidden = menuAberto;
+});
+
+document.querySelector('#account-logout').addEventListener('click', () => {
+    sessionStorage.removeItem('authenticated');
+    window.location.replace('/login/');
+});
+
+document.addEventListener('click', (evento) => {
+    if (!evento.target.closest('.account-menu')) {
+        botaoConta.setAttribute('aria-expanded', 'false');
+        menuConta.hidden = true;
+    }
+});
+
+document.addEventListener('keydown', (evento) => {
+    if (evento.key === 'Escape' && !menuConta.hidden) {
+        botaoConta.setAttribute('aria-expanded', 'false');
+        menuConta.hidden = true;
+        botaoConta.focus();
+    }
+});
+
 document.body.insertAdjacentHTML('beforeend', `
     <section class="post-modal" id="post-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
         <button class="modal-backdrop" type="button" data-close-modal aria-label="Fechar detalhes do post"></button>
