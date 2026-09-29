@@ -15,7 +15,7 @@ function fazerLogin() {
                     <input id="senha" type="password" placeholder="Senha">
                 </div>
                 <button type="submit">Enviar</button>
-                <a href="../cadastro">Fazer cadastro</a>
+                <a href="../cadastro/index.html">Fazer cadastro</a>
             </form>
         </main>`)
     }  
@@ -71,6 +71,7 @@ function compararCadastro(){
         }
 
         if (user.email === userCadastro.email && user.senha === userCadastro.senha) {
+            sessionStorage.setItem('authenticated', 'true');
             setTimeout(() => {
                 window.location.href = '/'
             }, 3000)

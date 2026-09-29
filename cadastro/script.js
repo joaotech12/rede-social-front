@@ -39,7 +39,7 @@ function efetuarCadastro() {
             return;
         }
         localStorage.setItem("user", JSON.stringify({ email, senha }));
-        location.href = "/login";
+        location.href = "../login/index.html";
     });
 }
 efetuarCadastro()

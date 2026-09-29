@@ -1,50 +1,58 @@
 console.log('home')
-function verificarLogin(){
-const user = localStorage.getItem('user')
 
-if(!user){
-    setTimeout(() =>{
-        window.location.href = '/login'
-    }, 3000);
+function verificarLogin() {
+    if (!sessionStorage.getItem('authenticated')) {
+        window.location.replace('/login/');
+        return false;
+    }
+    return true;
 }
 
+const usuarioAutenticado = verificarLogin();
+let paginaAtual = 0;
 
-
-}
-verificarLogin()
-
-let paginaAtual = 0 
 async function artApi() {
-    const resposta = await fetch(`https://api.artic.edu/api/v1/artworks?page=${paginaAtual + 1}&fields=id,title,artist_display,image_id`)
+    const resposta = await fetch(`https://openaccess-api.clevelandart.org/api/artworks/?limit=20&skip=${paginaAtual * 20}&has_image=1&cc0=1`);
+    if (!resposta.ok) throw new Error(`Falha ao buscar obras: ${resposta.status}`);
     const data = await resposta.json();
-    console.log(data);
     return data.data;
 }
 
-async function postApi(){
-    const main = document.getElementById("feed")
-    const obras = await artApi();
+async function postApi() {
+    const main = document.getElementById('feed');
+    try {
+        const obras = await artApi();
 
-    obras.forEach(obra => {
-        if (!obra.image_id) return;
-        const imagemUrl = `https://www.artic.edu/iiif/2/${obra.image_id}/full/843,/0/default.jpg`
+        obras.forEach(obra => {
+            const imagemUrl = obra.images?.print?.url || obra.images?.web?.url;
+            if (!imagemUrl) return;
 
-        main.insertAdjacentHTML(`beforeend`, `
-            <div class="art slide" id="art${obra.id}">
-                <div class="artImagem">
-                    <img src="${imagemUrl}" alt="${obra.title}" loading="lazy" >
+            const artista = obra.creators?.map(criador => criador.description).filter(Boolean).join(', ') || 'Artista desconhecido';
+
+            main.insertAdjacentHTML('beforeend', `
+                <div class="art slide" id="art${obra.id}">
+                    <div class="artImagem">
+                        <img src="${imagemUrl}" alt="${obra.title || 'Obra de arte'}" loading="lazy">
+                    </div>
+                    <div class="artInfo">
+                        <h2 class="artTitulo">${obra.title || 'Obra sem título'}</h2>
+                        <p class="artTitulo">${artista}</p>
+                    </div>
                 </div>
-                <div class="artInfo">
-                    <h2 class="artTitulo">${obra.title}</h2>
-                    <p class="artTitulo">${obra.artist_display}</p>
-                </div>
-            </div>
-        `);
-    });
+            `);
+
+            const imagem = main.lastElementChild.querySelector('img');
+            imagem.addEventListener('error', () => {
+                if (obra.images?.web?.url && imagem.src !== obra.images.web.url) {
+                    imagem.src = obra.images.web.url;
+                } else {
+                    imagem.remove();
+                }
+            }, { once: true });
+        });
+    } catch (erro) {
+        console.error('Não foi possível carregar o feed de obras:', erro);
+    }
 }
 
-postApi()
-
-
-
-
+if (usuarioAutenticado) postApi();
